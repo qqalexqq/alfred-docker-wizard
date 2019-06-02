@@ -2,7 +2,7 @@
 
 
 
-[Download Workflow](https://github.com/keithamus/alfred-docker-wizard/releases/download/1.1.0/Docker.Wizard.alfredworkflow)
+[Download Workflow](https://raw.githubusercontent.com/qqalexqq/alfred-docker-wizard/master/Docker.Wizard.alfredworkflow)
 
 <p align="center"><img src="./icon.png" width="150"/></p>
 
