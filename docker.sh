@@ -9,11 +9,11 @@ if [ "$VALID_MACHINE" = "0" ]
 then
   if [ "$MACHINE_STATUS" = "Running" ]
   then
-    echo "<item arg=\"machine stop '$MACHINE'\" uid=\"$MACHINE\">"
+    echo "<item arg=\"machine stop '${MACHINE//./\\.}'\" uid=\"${MACHINE//./\\.}\">"
     echo "  <title>Shut Down Machine $MACHINE</title>"
     echo "  <subtitle>Will shut down all containers on $MACHINE</subtitle>"
     echo "</item>"
-    echo "<item arg=\"machine ip '$MACHINE'\" uid=\"$MACHINE-ip\">"
+    echo "<item arg=\"machine ip '${MACHINE//./\\.}'\" uid=\"${MACHINE//./\\.}-ip\">"
     echo "  <title>Copy Machine IP $MACHINE</title>"
     echo "  <subtitle>Copy '$(docker-machine ip $MACHINE)' to clipboard</subtitle>"
     echo "</item>"
@@ -27,16 +27,12 @@ then
         CONTAINER_ID=$(echo "$CONTAINER" | sed 's/.*|//')
         CONTAINER_NAME=$(echo "$CONTAINER" | sed 's/|.*//')
         CONTAINER_SUBTITLE=$(echo "$CONTAINER" | sed 's/.*|\(.*\)|.*/\1/')
-        echo "<item arg=\"container stop '$MACHINE' '$CONTAINER_ID'\">"
+        echo "<item arg=\"container stop '${MACHINE//./\\.}' '$CONTAINER_ID'\">"
         echo "  <title>Shut down $CONTAINER_NAME</title>"
         echo "  <subtitle>$CONTAINER_SUBTITLE</subtitle>"
         echo "</item>"
       done <<< "$CONTAINERS"
     fi
-  else
-    echo "<item arg=\"machine start '$MACHINE'\" uid=\"$MACHINE\">"
-    echo "  <title>Boot Docker Machine $MACHINE</title>"
-    echo "</item>"
   fi
 else
   while read -r MACHINE
@@ -45,7 +41,7 @@ else
     MACHINE_STATUS=$(docker-machine status $MACHINE)
     MACHINE_IP=$(docker-machine ip $MACHINE)
     MACHINE_DRIVER=$(docker-machine inspect $MACHINE | sed -n 's/.*"DriverName": "\(.*\)",/\1/p')
-    echo "<item arg=\"$MACHINE\" uid=\"$MACHINE\" valid=\"no\" autocomplete=\"$MACHINE\">"
+    echo "<item arg=\"${MACHINE//./\\.}\" uid=\"${MACHINE//./\\.}\" valid=\"no\" autocomplete=\"$MACHINE\">"
     echo "  <title>$MACHINE</title>"
     echo "  <subtitle>$MACHINE_STATUS (Docker $MACHINE_VERSION on $MACHINE_DRIVER), $MACHINE_IP</subtitle>"
     echo "</item>"
